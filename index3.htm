@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Home | Class 8 Study Website</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #ff0000, #a24b61);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 40px 20px 80px;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* ✅ Profile Section */
+    .profile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+      animation: fadeDown 1.5s ease;
+    }
+    .profile img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 3px solid #fff;
+      object-fit: cover;
+      margin: 5px;
+    }
+    .profile h2 {
+      font-size: 22px;
+      font-weight: bold;
+      margin-top: 8px;
+      outline: none;
+    }
+    .profile h2[contenteditable="true"] {
+      border-bottom: 2px dashed #fff;
+      padding: 2px 6px;
+      cursor: text;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 30px;
+      text-align: center;
+      animation: fadeDown 1.5s ease;
+    }
+
+    @keyframes fadeDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .subjects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      width: 100%;
+      max-width: 1000px;
+      animation: fadeUp 1.5s ease;
+    }
+
+    @keyframes fadeUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 25px 15px;
+      border-radius: 16px;
+      text-align: center;
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.4s;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: "";
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.2), transparent 70%);
+      transform: scale(0);
+      transition: transform 0.5s ease;
+    }
+    .card:hover::before {
+      transform: scale(1);
+    }
+    .card:hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ✅ Mobile responsiveness */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+      .subjects {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+      .card {
+        font-size: 16px;
+        padding: 20px;
+      }
+      .profile img {
+        width: 80px;
+        height: 80px;
+      }
+      .profile h2 {
+        font-size: 18px;
+      }
+    }
+
+    /* ✅ Bottom Navigation Bar */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      color: white;
+      font-size: 14px;
+      z-index: 1000;
+    }
+
+    .bottom-nav a {
+      color: white;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 13px;
+    }
+
+    .bottom-nav a:hover {
+      color: #ffd966;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ✅ Profile Section -->
+  <div class="profile">
+    <div style="display: flex; justify-content: center;">
+      <img src="download.jfif" alt="Profile Pic 1"> <!-- First image -->
+      <img src="image.jfif" alt="Profile Pic 2"> <!-- Second image -->
+    </div>
+    <h2 contenteditable="true">Click to Edit Name</h2> <!-- Editable Name -->
+  </div>
+
+  <h1>📘 Class 8 Subjects</h1>
+
+  <div class="subjects">
+    <a href="hindi.htm"><div class="card">Hindi</div></a>
+    <a href="eng.htm"><div class="card">English</div></a>
+    <a href="math.htm"><div class="card">Mathematics</div></a>
+    <a href="sst.htm"><div class="card">Social Science</div></a>
+    <a href="pbi.htm"><div class="card">Punjabi</div></a>
+    <a href="phy.htm"><div class="card">Physics</div></a>
+    <a href="che.htm"><div class="card">Chemistry</div></a>
+    <a href="bio.htm"><div class="card">Biology</div></a>
+  </div>
+
+  <!-- ✅ Bottom Navigation Bar -->
+  <div class="bottom-nav">
+    <a href="index.html">🏠 Home</a>
+    <a href="math.htm">➕ Math</a>
+    <a href="che.htm">🔬 Science</a>
+    <a href="eng.htm">📖 English</a>
+    <a href="sst.htm">🌍 SST</a>
+  </div>
+
+</body>
+</html>
+
+
+
+
+
+

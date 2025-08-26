@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sign Up</title>
+<style>
+body {
+  margin:0; padding:0; font-family:Poppins, sans-serif;
+  height:100vh; display:flex; justify-content:center; align-items:center;
+  background:linear-gradient(-45deg,#ff9966,#ff5e62,#ff758c,#ff4b63);
+  background-size:400% 400%; animation:bgMove 10s ease infinite;
+}
+@keyframes bgMove {
+  0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}
+}
+.box{
+  background:rgba(255,255,255,0.1); padding:40px; border-radius:20px;
+  text-align:center; color:white; backdrop-filter:blur(12px);
+  box-shadow:0 10px 30px rgba(0,0,0,0.4); animation:slideUp 1.5s ease;
+}
+@keyframes slideUp{from{opacity:0; transform:translateY(50px);} to{opacity:1; transform:translateY(0);}}
+h2{margin-bottom:20px;}
+input{
+  width:90%; padding:12px; margin:10px 0; border-radius:8px; border:none; outline:none;
+  transition:0.3s;
+}
+input:focus{
+  box-shadow:0 0 8px #36d1dc; transform: scale(1.02);
+}
+button{
+  width:95%; padding:12px; margin-top:15px; border:none; border-radius:8px;
+  background:#36d1dc; color:white; font-weight:bold; cursor:pointer; transition:0.3s;
+}
+button:hover{transform:scale(1.05); box-shadow:0 4px 15px rgba(0,0,0,0.3);}
+.link{margin-top:15px; font-size:14px;}
+.link a{color:#ffd700; text-decoration:none;}
+#msg{
+  position:fixed;top:20px;left:50%;transform:translateX(-50%);
+  background:rgba(0,0,0,0.7); color:white; padding:10px 20px; border-radius:10px;
+  display:none; z-index:9999;
+}
+</style>
+</head>
+<body>
+
+<div class="box">
+<h2>Sign Up</h2>
+<input type="text" id="name" placeholder="Full Name" required>
+<input type="text" id="rollno" placeholder="Roll No" required>
+<input type="password" id="password" placeholder="Password" required>
+<button onclick="signup()">Sign Up</button>
+<div class="link">
+Already have an account? <a href="index.htm">Login</a>
+</div>
+</div>
+
+<div id="msg"></div>
+
+<script>
+const scriptURL = "https://script.google.com/macros/s/AKfycbxjhsIAvgm9aPzIzeltJF8TZ2HmpXXxkiJOatP6wABqOlj_lUAUFC1w7ATDAnJEJZ7K/exec"; // <-- paste your Google Apps Script Web App URL here
+
+function showMessage(text, color="green"){
+  const msg = document.getElementById("msg");
+  msg.innerText = text;
+  msg.style.background = color;
+  msg.style.display = "block";
+  setTimeout(()=>{ msg.style.display="none"; }, 2500);
+}
+
+function signup(){
+  const name = document.getElementById("name").value.trim();
+  const roll = document.getElementById("rollno").value.trim();
+  const pass = document.getElementById("password").value;
+
+  // Validation
+  if(name.length<2){ showMessage("Name must be at least 2 characters","red"); return; }
+  if(roll.length<1){ showMessage("Enter valid Roll No","red"); return; }
+  if(!/^\d+$/.test(roll)){ showMessage("Roll No must be numbers only","red"); return; }
+  if(pass.length<6){ showMessage("Password must be at least 6 characters","red"); return; }
+
+  // Send data to Google Sheets
+  fetch(scriptURL,{
+    method:"POST",
+    body:new URLSearchParams({
+      action:"signup",
+      name:name,
+      rollno:roll,
+      password:pass
+    })
+  })
+  .then(res=>res.text())
+  .then(data=>{
+    if(data==="success"){
+      showMessage("Account created ✅ Please login","green");
+      setTimeout(()=>{ window.location.href="index.htm"; }, 1000);
+    } else if(data==="exists"){
+      showMessage("Roll No already exists ❌","red");
+    } else {
+      showMessage("Error signing up ❌","red");
+    }
+  })
+  .catch(err=>showMessage("Error: "+err,"red"));
+}
+</script>
+</body>
+</html>
+
+
+
+

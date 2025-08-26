@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(270deg, #00c6ff, #0072ff);
+      background-size: 400% 400%;
+      animation: bgMove 8s ease infinite;
+    }
+
+    @keyframes bgMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .box {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      color: white;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      animation: fadeIn 1.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    h2 { margin-bottom: 20px; }
+
+    input {
+      width: 90%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+    }
+
+    button {
+      width: 95%;
+      padding: 12px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 8px;
+      background: #ff758c;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover { background: #ff4e63; }
+
+    .link {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+    .link a {
+      color: #ffd700;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Login</h2>
+    <input type="text" id="roll" placeholder="Roll No">
+    <input type="password" id="pass" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <div class="link">
+      Don’t have an account? <a href="index2.htm">Sign Up</a>
+    </div>
+  </div>
+
+  <script>
+    function login(){
+      let roll = document.getElementById("roll").value;
+      let pass = document.getElementById("pass").value;
+
+      let stored = localStorage.getItem(roll);
+
+      if(stored){
+        let user = JSON.parse(stored);
+        if(user.password === pass){
+          window.location.href = "index3.htm"; // ✅ go to your main site
+        } else {
+          alert("Wrong password ❌");
+        }
+      } else {
+        alert("Roll No not found! Please Sign Up first.");
+      }
+    }
+  </script>
+</body>
+</html>
+
+
