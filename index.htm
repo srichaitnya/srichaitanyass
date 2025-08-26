@@ -11,25 +11,28 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      overflow: hidden;
     }
 
     .container {
-      width: 350px;
+      width: 360px;
       padding: 30px;
       background: #fff;
       border-radius: 15px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
       text-align: center;
-      animation: fadeIn 1s ease;
+      animation: fadeIn 0.9s ease;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
     }
 
-    h2 { margin-bottom: 20px; color: #333; }
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+      font-weight: 600;
+    }
 
     input {
       width: 90%;
@@ -67,6 +70,11 @@
       margin-top: 15px;
       color: #667eea;
       cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .toggle:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -82,8 +90,8 @@
 
   <script>
     let isSignup = false;
-    const url = "https://script.google.com/macros/s/AKfycbzJRvxDh40xjPp3CD_gKO8AXP-VC26f4HpjDZi6NFMfFjV_ztvTFXn25VcDkN2IQsSH/exec"; // Paste your Google Apps Script Web App URL
-    const redirectPage = "index3.htm";  // page to open after login success
+    const url = "https://script.google.com/macros/s/AKfycby14Ysk6KDyIm7R1lITOoTyAZwBlCIB6sB9KLMQ2JIHJH3cCemvyZae23JPK-KrtZuD/exec";  // <-- Your Google Apps Script Web App URL
+    const redirectPage = "index3.htm";          // Page to open after login success
 
     function toggleForm() {
       isSignup = !isSignup;
@@ -97,6 +105,11 @@
       const name = document.getElementById("name").value;
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
+
+      if (!email || !password || (isSignup && !name)) {
+        alert("Please fill all fields");
+        return;
+      }
 
       const data = {
         action: isSignup ? "signup" : "login",
@@ -113,9 +126,9 @@
       .then(msg => {
         if (msg.includes("Login Success")) {
           alert("Login successful! Redirecting...");
-          window.location.href = redirectPage; // Go to your website
+          window.location.href = redirectPage;
         } else {
-          alert(msg); // Show error
+          alert(msg);
         }
       })
       .catch(err => alert("Error: " + err));
@@ -123,4 +136,3 @@
   </script>
 </body>
 </html>
-
