@@ -86,6 +86,50 @@
   </div>
 
   <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxjhsIAvgm9aPzIzeltJF8TZ2HmpXXxkiJOatP6wABqOlj_lUAUFC1w7ATDAnJEJZ7K/exec"; // <-- paste your Google Apps Script Web App URL here
+
+function showMessage(text, color="green"){
+  const msg = document.getElementById("msg");
+  msg.innerText = text;
+  msg.style.background = color;
+  msg.style.display = "block";
+  setTimeout(()=>{ msg.style.display="none"; }, 2500);
+}
+
+function signup(){
+  const name = document.getElementById("name").value.trim();
+  const roll = document.getElementById("rollno").value.trim();
+  const pass = document.getElementById("password").value;
+
+  // Validation
+  if(name.length<2){ showMessage("Name must be at least 2 characters","red"); return; }
+  if(roll.length<1){ showMessage("Enter valid Roll No","red"); return; }
+  if(!/^\d+$/.test(roll)){ showMessage("Roll No must be numbers only","red"); return; }
+  if(pass.length<6){ showMessage("Password must be at least 6 characters","red"); return; }
+
+  // Send data to Google Sheets
+  fetch(scriptURL,{
+    method:"POST",
+    body:new URLSearchParams({
+      action:"signup",
+      name:name,
+      rollno:roll,
+      password:pass
+    })
+  })
+  .then(res=>res.text())
+  .then(data=>{
+    if(data==="success"){
+      showMessage("Account created ✅ Please login","green");
+      setTimeout(()=>{ window.location.href="index.htm"; }, 1000);
+    } else if(data==="exists"){
+      showMessage("Roll No already exists ❌","red");
+    } else {
+      showMessage("Error signing up ❌","red");
+    }
+  })
+  .catch(err=>showMessage("Error: "+err,"red"));
+}
     function login(){
       let roll = document.getElementById("roll").value;
       let pass = document.getElementById("pass").value;
@@ -102,6 +146,7 @@
   </script>
 </body>
 </html>
+
 
 
 
