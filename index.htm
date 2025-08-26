@@ -2,52 +2,48 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Login</title>
+  <title>Login & Signup</title>
   <style>
     body {
-      margin: 0;
-      padding: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
       height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-family: "Poppins", sans-serif;
-      background: linear-gradient(270deg, #00c6ff, #0072ff);
-      background-size: 400% 400%;
-      animation: bgMove 8s ease infinite;
+      overflow: hidden;
     }
 
-    @keyframes bgMove {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .box {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 40px;
-      border-radius: 20px;
+    .container {
+      width: 350px;
+      padding: 30px;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
       text-align: center;
-      color: white;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-      animation: fadeIn 1.5s ease;
+      animation: fadeIn 1s ease;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.8); }
-      to { opacity: 1; transform: scale(1); }
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    h2 { margin-bottom: 20px; }
+    h2 { margin-bottom: 20px; color: #333; }
 
     input {
       width: 90%;
       padding: 12px;
-      margin: 10px 0;
+      margin: 8px 0;
+      border: 1px solid #ddd;
       border-radius: 8px;
-      border: none;
       outline: none;
+      transition: 0.3s;
+    }
+
+    input:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 8px rgba(102,126,234,0.4);
     }
 
     button {
@@ -56,97 +52,199 @@
       margin-top: 15px;
       border: none;
       border-radius: 8px;
-      background: #ff758c;
+      background: #667eea;
       color: white;
-      font-weight: bold;
+      font-size: 16px;
       cursor: pointer;
       transition: 0.3s;
     }
-    button:hover { background: #ff4e63; }
 
-    .link {
-      margin-top: 15px;
-      font-size: 14px;
+    button:hover {
+      background: #764ba2;
     }
-    .link a {
-      color: #ffd700;
-      text-decoration: none;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login & Signup</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .container {
+      width: 350px;
+      padding: 30px;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      text-align: center;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 { margin-bottom: 20px; color: #333; }
+
+    input {
+      width: 90%;
+      padding: 12px;
+      margin: 8px 0;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    input:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 8px rgba(102,126,234,0.4);
+    }
+
+    button {
+      width: 95%;
+      padding: 12px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 8px;
+      background: #667eea;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #764ba2;
+    }
+
+    .toggle {
+      margin-top: 15px;
+      color: #667eea;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <div class="box">
-    <h2>Login</h2>
-    <input type="text" id="roll" placeholder="Roll No">
-    <input type="password" id="pass" placeholder="Password">
-    <button onclick="login()">Login</button>
-    <div class="link">
-      Don’t have an account? <a href="index2.htm">Sign Up</a>
-    </div>
+  <div class="container" id="form-container">
+    <h2 id="form-title">Login</h2>
+    <input type="text" id="name" placeholder="Name" style="display:none;">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="submitForm()">Login</button>
+    <div class="toggle" onclick="toggleForm()">Don’t have an account? Sign Up</div>
   </div>
 
   <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbxjhsIAvgm9aPzIzeltJF8TZ2HmpXXxkiJOatP6wABqOlj_lUAUFC1w7ATDAnJEJZ7K/exec"; // <-- paste your Google Apps Script Web App URL here
+    let isSignup = false;
+    const url = "YOUR_WEB_APP_URL_HERE"; // Paste your Google Apps Script Web App URL
+    const redirectPage = "index3.htm";  // page to open after login success
 
-function showMessage(text, color="green"){
-  const msg = document.getElementById("msg");
-  msg.innerText = text;
-  msg.style.background = color;
-  msg.style.display = "block";
-  setTimeout(()=>{ msg.style.display="none"; }, 2500);
-}
-
-function signup(){
-  const name = document.getElementById("name").value.trim();
-  const roll = document.getElementById("rollno").value.trim();
-  const pass = document.getElementById("password").value;
-
-  // Validation
-  if(name.length<2){ showMessage("Name must be at least 2 characters","red"); return; }
-  if(roll.length<1){ showMessage("Enter valid Roll No","red"); return; }
-  if(!/^\d+$/.test(roll)){ showMessage("Roll No must be numbers only","red"); return; }
-  if(pass.length<6){ showMessage("Password must be at least 6 characters","red"); return; }
-
-  // Send data to Google Sheets
-  fetch(scriptURL,{
-    method:"POST",
-    body:new URLSearchParams({
-      action:"signup",
-      name:name,
-      rollno:roll,
-      password:pass
-    })
-  })
-  .then(res=>res.text())
-  .then(data=>{
-    if(data==="success"){
-      showMessage("Account created ✅ Please login","green");
-      setTimeout(()=>{ window.location.href="index.htm"; }, 1000);
-    } else if(data==="exists"){
-      showMessage("Roll No already exists ❌","red");
-    } else {
-      showMessage("Error signing up ❌","red");
+    function toggleForm() {
+      isSignup = !isSignup;
+      document.getElementById("form-title").innerText = isSignup ? "Sign Up" : "Login";
+      document.getElementById("name").style.display = isSignup ? "block" : "none";
+      document.querySelector("button").innerText = isSignup ? "Sign Up" : "Login";
+      document.querySelector(".toggle").innerText = isSignup ? "Already have an account? Login" : "Don’t have an account? Sign Up";
     }
-  })
-  .catch(err=>showMessage("Error: "+err,"red"));
-}
-    function login(){
-      let roll = document.getElementById("roll").value;
-      let pass = document.getElementById("pass").value;
 
-      let stored = localStorage.getItem(roll);
+    function submitForm() {
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
 
-      if(stored){
-        let user = JSON.parse(stored);
-        if(user.password === pass){
-          window.location.href = "index3.htm"; // ✅ go to your main site
-        
-    
+      const data = {
+        action: isSignup ? "signup" : "login",
+        name: name,
+        email: email,
+        password: password
+      };
+
+      fetch(url, {
+        method: "POST",
+        body: JSON.stringify(data)
+      })
+      .then(res => res.text())
+      .then(msg => {
+        if (msg.includes("Login Success")) {
+          alert("Login successful! Redirecting...");
+          window.location.href = redirectPage; // Go to your website
+        } else {
+          alert(msg); // Show error
+        }
+      })
+      .catch(err => alert("Error: " + err));
     }
   </script>
 </body>
 </html>
 
+    .toggle {
+      margin-top: 15px;
+      color: #667eea;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="form-container">
+    <h2 id="form-title">Login</h2>
+    <input type="text" id="name" placeholder="Name" style="display:none;">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="submitForm()">Login</button>
+    <div class="toggle" onclick="toggleForm()">Don’t have an account? Sign Up</div>
+  </div>
 
+  <script>
+    let isSignup = false;
+    const url = "YOUR_WEB_APP_URL_HERE"; // Paste your Google Apps Script Web App URL
+    const redirectPage = "index3.htm";  // page to open after login success
 
+    function toggleForm() {
+      isSignup = !isSignup;
+      document.getElementById("form-title").innerText = isSignup ? "Sign Up" : "Login";
+      document.getElementById("name").style.display = isSignup ? "block" : "none";
+      document.querySelector("button").innerText = isSignup ? "Sign Up" : "Login";
+      document.querySelector(".toggle").innerText = isSignup ? "Already have an account? Login" : "Don’t have an account? Sign Up";
+    }
 
+    function submitForm() {
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      const data = {
+        action: isSignup ? "signup" : "login",
+        name: name,
+        email: email,
+        password: password
+      };
+
+      fetch(url, {
+        method: "POST",
+        body: JSON.stringify(data)
+      })
+      .then(res => res.text())
+      .then(msg => {
+        if (msg.includes("Login Success")) {
+          alert("Login successful! Redirecting...");
+          window.location.href = redirectPage; // Go to your website
+        } else {
+          alert(msg); // Show error
+        }
+      })
+      .catch(err => alert("Error: " + err));
+    }
+  </script>
+</body>
+</html>
